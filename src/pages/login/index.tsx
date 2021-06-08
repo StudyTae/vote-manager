@@ -1,7 +1,8 @@
 import React, {useCallback, useState} from 'react';
-import {SafeAreaView, View, TouchableOpacity, Text, Image} from 'react-native';
-import FillTextinput from '@components/nativeComponets/fillTextinput/index';
-import TouchButton from '../../components/nativeComponets/TouchButton/index';
+import {View, Image} from 'react-native';
+import {Button, Input} from 'react-native-elements';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import styles from '@css/login/styles';
 
 const LoginIndex: React.FC = () => {
   const [focus, setFocus] = useState([false, false]);
@@ -16,66 +17,48 @@ const LoginIndex: React.FC = () => {
     }
   }, []);
 
+  console.log(focus);
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        marginTop: '30%',
-        marginLeft: '5%',
-        marginRight: '5%',
-      }}>
-      <Image
-        source={require('@img/vote-main.png')}
-        style={{width: '100%', height: '30%'}}
-      />
-      <FillTextinput
-        handleFocus={(type: string) => handleFocus(type, 0)}
-        isFocus={focus[0]}
+    <SafeAreaView style={styles.container}>
+      <Image source={require('@img/vote-main.png')} style={styles.coverImg} />
+      <Input
+        labelStyle={{marginTop: 10}}
+        label="ID"
+        onFocus={() => handleFocus('focus', 0)}
+        onBlur={() => handleFocus('blur', 0)}
         placeholder="아이디 입력"
-        handleChange={setId}
+        style={styles.input}
+        onChangeText={setId}
         value={id}
+        inputContainerStyle={{borderColor: focus[0] ? 'blue' : 'gray'}}
       />
-      <FillTextinput
-        handleFocus={(type: string) => handleFocus(type, 1)}
-        isFocus={focus[1]}
+      <Input
+        label="PASSWORD"
+        onFocus={() => handleFocus('focus', 1)}
+        onBlur={() => handleFocus('blur', 1)}
         placeholder="비밀번호 입력"
-        handleChange={setPassword}
+        style={styles.input}
+        onChangeText={setPassword}
         value={password}
-        secureTextEntry={true}
+        secureTextEntry
+        errorStyle={{display: 'none'}}
+        errorMessage="아이디 혹은 비밀번호가 올바르지 않습니다."
+        renderErrorMessage={false}
+        inputContainerStyle={{borderColor: focus[1] ? 'blue' : 'gray'}}
       />
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: '10%',
-          width: '100%',
-          justifyContent: 'space-between',
-        }}>
-        <TouchButton
-          handlePress={() => {}}
-          buttonText="로그인"
-          containerStyle={{
-            height: 40,
-            width: '48%',
-            borderRadius: 15,
-            backgroundColor: 'skyblue',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          textStyle={{color: '#ffffff'}}
+      <View style={styles.buttonArea}>
+        <Button
+          title="로그인"
+          onPress={() => {}}
+          buttonStyle={[styles.button, {backgroundColor: 'skyblue'}]}
+          containerStyle={styles.buttonContainer}
         />
-        <TouchButton
-          handlePress={() => {}}
-          buttonText="회원가입"
-          containerStyle={{
-            height: 40,
-            width: '48%',
-            borderRadius: 15,
-            backgroundColor: 'pink',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          textStyle={{color: '#ffffff'}}
+        <Button
+          title="회원가입"
+          onPress={() => {}}
+          buttonStyle={[styles.button, {backgroundColor: 'pink'}]}
+          containerStyle={styles.buttonContainer}
         />
       </View>
     </SafeAreaView>
